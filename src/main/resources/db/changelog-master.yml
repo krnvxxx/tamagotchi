@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/liquibase-scripts/2024-11-27_create_table_animals.sql
+  - include:
+      file: db/liquibase-scripts/2024-11-28_create_table_users.sql
+  - include:
+      file: db/liquibase-scripts/2024-11-28_add_password_column_users.sql
+  - include:
+      file: db/liquibase-scripts/2024-11-28_add_user_id_column_animals.sql

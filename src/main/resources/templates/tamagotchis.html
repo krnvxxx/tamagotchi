@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamagotchi Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<h1>Tamagotchi Dashboard</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Date of Birth</th>
+        <th>Health Points</th>
+        <th>Hunger Points</th>
+        <th>Thirst Points</th>
+        <th>Age</th>
+    </tr>
+    </thead>
+    <tbody>
+        <td th:text="${tamagotchi.id}"></td>
+        <td th:text="${tamagotchi.type}"></td>
+        <td th:text="${tamagotchi.name}"></td>
+        <td th:text="${tamagotchi.dateOfBirth}"></td>
+        <td th:text="${tamagotchi.healthPoints}"></td>
+        <td th:text="${tamagotchi.hungerPoints}"></td>
+        <td th:text="${tamagotchi.thirstPoints}"></td>
+        <td th:text="${tamagotchi.age}"></td>
+    </tbody>
+</table>
+</body>
+</html>
