@@ -9,7 +9,7 @@ import ru.game.tamagotchi.services.AnimalService;
 
 
 @Controller
-@RequestMapping("/api/v1/animals")
+@RequestMapping("/animals")
 @RequiredArgsConstructor
 public class AnimalController {
     private final AnimalService animalService;

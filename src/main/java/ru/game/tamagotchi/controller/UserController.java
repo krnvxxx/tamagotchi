@@ -9,7 +9,7 @@ import ru.game.tamagotchi.model.UserEntity;
 import ru.game.tamagotchi.services.UserService;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;

@@ -36,15 +36,6 @@ public class AnimalEntity {
     @Column(name = "thirst_points")
     private Integer thirstPoints = 0;
 
-    public AnimalEntity(AnimalType type, String name, LocalDateTime dateOfBirth, Integer healthPoints, Integer hungerPoints, Integer thirstPoints) {
-        this.type = type;
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.healthPoints = healthPoints;
-        this.hungerPoints = hungerPoints;
-        this.thirstPoints = thirstPoints;
-    }
-
     public int getAge() {
         return (dateOfBirth != null)
                 ? Period.between(dateOfBirth.toLocalDate(), LocalDate.now()).getYears()

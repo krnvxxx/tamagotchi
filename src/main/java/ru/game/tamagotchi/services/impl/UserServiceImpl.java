@@ -15,7 +15,7 @@ import ru.game.tamagotchi.services.UserService;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UserEntity findByLogin(String username) {
         return userRepository.findByLogin(username);
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public UserEntity create(UserEntity user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
