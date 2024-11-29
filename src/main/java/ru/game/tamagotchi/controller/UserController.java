@@ -18,4 +18,5 @@ public class UserController {
     public UserEntity createUser(@RequestBody UserEntity user) {
         return userService.create(user);
     }
+    
 }
