@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Отключение CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/animals/status").authenticated()
+                        .requestMatchers("/user/profile").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.loginPage("/login").permitAll())
