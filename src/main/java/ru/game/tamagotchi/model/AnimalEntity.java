@@ -1,5 +1,6 @@
 package ru.game.tamagotchi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,8 @@ public class AnimalEntity {
 
     private String name;
 
-    @OneToOne
+    @OneToOne()
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity owner;
 

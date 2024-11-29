@@ -63,7 +63,7 @@
     async function fetchUserProfile() {
         const container = document.getElementById('profileContent');
         try {
-            const response = await fetch('http://localhost:8080/api/users/profile');
+            const response = await fetch('http://localhost:8080/api/user/myprofile');
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
