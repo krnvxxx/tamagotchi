@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+        }
+
+        .profile-item {
+            margin-bottom: 15px;
+        }
+
+        .profile-item span {
+            font-weight: bold;
+        }
+
+        .animal-section {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .error {
+            color: #ff8585;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="profileContainer">
+    <h1>User Profile</h1>
+    <div id="profileContent">Loading profile...</div>
+</div>
+
+<script>
+    async function fetchUserProfile() {
+        const container = document.getElementById('profileContent');
+        try {
+            const response = await fetch('http://localhost:8080/api/users/profile');
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const userData = await response.json();
+            renderProfile(userData);
+        } catch (error) {
+            console.error(error);
+            container.innerHTML = `<div class="error">Failed to load profile.</div>`;
+        }
+    }
+
+    function renderProfile(user) {
+        const container = document.getElementById('profileContent');
+        container.innerHTML = `
+                <div class="profile-item">
+                    <span>ID:</span> ${user.id}
+                </div>
+                <div class="profile-item">
+                    <span>Username:</span> ${user.login}
+                </div>
+                <div class="profile-item">
+                    <span>Email:</span> ${user.email}
+                </div>
+                ${user.animal ? `
+                <div class="animal-section">
+                    <h2>Animal</h2>
+                    <div class="profile-item">
+                        <span>Type:</span> ${user.animal.type || 'Unknown'}
+                    </div>
+                    <div class="profile-item">
+                        <span>Name:</span> ${user.animal.name || 'Unknown'}
+                    </div>
+                    <div class="profile-item">
+                        <span>Age:</span> ${user.animal.age || 0} years
+                    </div>
+                    <div class="profile-item">
+                        <span>Health Points:</span> ${user.animal.healthPoints || 0}
+                    </div>
+                    <div class="profile-item">
+                        <span>Hunger Points:</span> ${user.animal.hungerPoints || 0}
+                    </div>
+                    <div class="profile-item">
+                        <span>Thirst Points:</span> ${user.animal.thirstPoints || 0}
+                    </div>
+                </div>` : '<div class="profile-item">No animal associated.</div>'}
+            `;
+    }
+
+    // Запускаем загрузку профиля
+    fetchUserProfile();
+</script>
+</body>
+</html>
