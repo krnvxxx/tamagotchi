@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fight Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+</head>
+<body>
+<h1>Fight Game</h1>
+
+<!-- Всплывающее окно для выбора имени -->
+<div id="nameModal" style="display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 1000; text-align: center; padding-top: 100px;">
+    <div style="background-color: white; padding: 20px; display: inline-block;">
+        <h2>Enter Your Name</h2>
+        <input type="text" id="playerName" placeholder="Enter player name" />
+        <br><br>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+</div>
+
+<!-- Статус игры и действия -->
+<div id="status">Waiting for players...</div>
+<div id="actions" style="display: none;">
+    <button id="attack" onclick="sendAction('attack')">Attack</button>
+    <button id="defend" onclick="sendAction('defend')">Defend</button>
+</div>
+
+<script>
+    // Переменные
+    let playerName = "";
+    let stompClient = null;
+
+    // Создаем соединение с сервером через WebSocket
+    const socket = new SockJS('/ws'); // Замените на ваш URL
+    stompClient = Stomp.over(socket);
+
+    // Подключаемся к серверу
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/fight', function (response) {
+            const fightStatus = JSON.parse(response.body);
+            updateFightStatus(fightStatus);
+        });
+    });
+
+    // Функция старта игры
+    function startGame() {
+        playerName = document.getElementById('playerName').value;
+        if (playerName.trim() === "") {
+            alert("Please enter a name!");
+            return;
+        }
+
+        // Закрыть всплывающее окно и показать кнопки для действий
+        document.getElementById('nameModal').style.display = "none";
+        document.getElementById('actions').style.display = "block";
+
+        // Отправляем имя игрока на сервер
+        const fightMessage = {
+            playerName: playerName,
+            action: "join" // Специальное действие для присоединения игрока
+        };
+        stompClient.send("/app/fight", {}, JSON.stringify(fightMessage));
+    }
+
+    // Функция отправки действия игрока
+    function sendAction(action) {
+        const fightMessage = {
+            playerName: playerName,
+            action: action
+        };
+
+        stompClient.send("/app/fight", {}, JSON.stringify(fightMessage));
+    }
+
+    // Функция обновления статуса боя на странице
+    function updateFightStatus(fightStatus) {
+        document.getElementById('status').innerHTML = `
+            Player 1: ${fightStatus.player1Name} (Health: ${fightStatus.player1Health}, Turn: ${fightStatus.player1Turn})<br>
+            Player 2: ${fightStatus.player2Name} (Health: ${fightStatus.player2Health}, Turn: ${fightStatus.player2Turn})<br>
+            Result: ${fightStatus.result}
+        `;
+    }
+</script>
+</body>
+</html>

@@ -16,6 +16,15 @@ spring:
     change-log: classpath:db/changelog-master.yml
     enabled: true
 
-server:
-  servlet:
-    context-path: /api
+# пока закоментирую
+#server:
+#  servlet:
+#    context-path: /api
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          socket: DEBUG
+        messaging: DEBUG
